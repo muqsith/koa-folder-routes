@@ -99,47 +99,54 @@ var criteria = function(o)
 
 var routesloader = function(app, router_dir)
 {
-    var project_dir = __dirname.substring(0, __dirname.indexOf(path.sep+'node_modules'));
-    if(!router_dir)
+    if(__dirname.indexOf(path.sep+'node_modules') !== -1)
     {
+        var project_dir = __dirname.substring(0, __dirname.indexOf(path.sep+'node_modules'));
+        if(!router_dir)
+        {
+            try{
+                router_dir = config.get('routes.directory');
+            }catch(e)
+            {
+                console.error('Routes directory(folder) is not configured. ');
+                console.error('Please pass the directory path '
+                    +' as second parameter: '
+                    +' var routesloader = require(\'koa-folder-routes\');'
+                    +' routesloader(app, \'../controllers\');'
+                    +' (OR) \n'
+                    +'Please configure routes directory: '
+                    +' "router": {\n'
+                    +' "directory": "controllers" \n'
+                    +'}\n'
+                );
+            }
+        }
+        router_dir = project_dir+path.sep+router_dir;
         try{
-            router_dir = config.get('routes.directory');
+            var dir = requireDir(router_dir, {recurse: true});
+            var m = traverse(dir, criteria);
+
+            if(m && typeof m === 'object')
+            {
+                for(var key in m)
+                {
+                    var r = m[key];
+                    var router_path = key.substring(0,key.lastIndexOf(path.sep));
+                    if(router_path === path.sep+'root')
+                    {
+                        router_path = '/';
+                    }
+                    router_path = router_path.split(path.sep).join('/');
+                    r.prefix(router_path);
+                    app.use(r.routes());
+                    app.use(r.allowedMethods(r.allowedMethodsObject));
+                }
+            }
         }catch(e)
         {
-            console.error('Routes directory(folder) is not configured. ');
-            console.error('Please pass the directory path '
-                +' as second parameter: '
-                +' var routesloader = require(\'koa-folder-routes\');'
-                +' routesloader(app, \'../controllers\');'
-                +' (OR) \n'
-                +'Please configure routes directory: '
-                +' "router": {\n'
-                +' "directory": "controllers" \n'
-                +'}\n'
-            );
+            console.log('Please check the routes folder(directory) path \n', e);
         }
     }
-    router_dir = project_dir+path.sep+router_dir;
-    var dir = requireDir(router_dir, {recurse: true});
-    var m = traverse(dir, criteria);
-
-    if(m && typeof m === 'object')
-    {
-        for(var key in m)
-        {
-            var r = m[key];
-            var router_path = key.substring(0,key.lastIndexOf(path.sep));
-            if(router_path === path.sep+'root')
-            {
-                router_path = '/';
-            }
-            router_path = router_path.split(path.sep).join('/');
-            r.prefix(router_path);
-            app.use(r.routes());
-            app.use(r.allowedMethods(r.allowedMethodsObject));
-        }
-    }
-
 };
 
 module.exports = routesloader;
