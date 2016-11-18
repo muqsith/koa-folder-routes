@@ -40,10 +40,10 @@ Now this will be available at http://localhost:8080/rest/v1/post/10
 ```
 'use strict';
 
-var router = require('koa-router')();
+var router = require("koa-router")();
 
-router.get('/', function *(next) {
-  this.render('index', {foo:"bar"});
+router.get("/", function *(next) {
+  this.render("index", {foo:"bar"});
 });
 
 router.allowedMethodsObject = {};
