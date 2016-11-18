@@ -99,10 +99,11 @@ var criteria = function(o)
 
 var routesloader = function(app, router_dir)
 {
+    var project_dir = __dirname.substring(0, __dirname.indexOf('/node_modules'));
     if(!router_dir)
     {
         try{
-            router_dir = '../'+config.get('routes.directory');
+            router_dir = config.get('routes.directory');
         }catch(e)
         {
             console.error('Routes directory(folder) is not configured. ');
@@ -118,6 +119,7 @@ var routesloader = function(app, router_dir)
             );
         }
     }
+    router_dir = project_dir+path.sep+router_dir;
     var dir = requireDir(router_dir, {recurse: true});
     var m = traverse(dir, criteria);
 
