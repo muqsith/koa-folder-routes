@@ -37,7 +37,7 @@ Now this will be available at http://localhost:8080/rest/v1/post/10
 
 &nbsp;&nbsp;&nbsp;	***controllers/root/index.js***
 
-```
+```javascript
 'use strict';
 
 var router = require("koa-router")();
