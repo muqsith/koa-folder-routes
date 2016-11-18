@@ -1,6 +1,6 @@
 {
   "name": "koa-folder-routes",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Create koa routes with folder path appended.",
   "main": "koa-folder-routes.js",
   "scripts": {

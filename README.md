@@ -12,6 +12,7 @@ Eg:
 &nbsp;&nbsp;&nbsp;	***controllers/rest/v1/post/index.js***
 	
 ```javascript
+	'use strict';
 	var router = require("koa-router")();
 
 	router.get("post","/:id", function *(next) {
@@ -29,17 +30,37 @@ Eg:
 	module.exports = router;
 	
 ```
+
 Now this will be available at http://localhost:8080/rest/v1/post/10
 	
 2.&nbsp;The koa-router objects present under *controllers/root/* are put up directly to the context path.
 
-&nbsp;&nbsp;&nbsp;&nbsp;http://localhost:8080/
+&nbsp;&nbsp;&nbsp;	***controllers/root/index.js***
+
+```
+'use strict';
+
+var router = require('koa-router')();
+
+router.get('/', function *(next) {
+  this.render('index', {foo:"bar"});
+});
+
+router.allowedMethodsObject = {};
+
+module.exports = router;
+
+```
+Now the index.jade will be available at http://localhost:8080/
 	
 3.&nbsp;Configuration:
 
 &nbsp;&nbsp;&nbsp;	***app.js***
 	
 ```javascript
+	'use strict';
+	const koa = require('koa');
+	const app = koa();
 	var routesloader = require('koa-folder-routes');
 	routesloader(app);
 	
@@ -58,6 +79,9 @@ Now this will be available at http://localhost:8080/rest/v1/post/10
 &nbsp;&nbsp;&nbsp;	***app.js***
 	
 ```javascript
+	'use strict';
+	const koa = require('koa');
+	const app = koa();
 	var routesloader = require('koa-folder-routes');
 	routesloader(app,'controllers'); 
 	
