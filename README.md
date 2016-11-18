@@ -32,7 +32,9 @@ Eg:
 Now this will be available at http://localhost:8080/rest/v1/post/10
 	
 2.&nbsp;The koa-router objects present under *controllers/root/* are put up directly to the context path.
+
 	&nbsp;&nbsp;&nbsp;&nbsp;http://localhost:8080/
+	
 3.&nbsp;Configuration:
 
 &nbsp;&nbsp;&nbsp;	***app.js***
