@@ -11,7 +11,7 @@ Eg:
 	
 &nbsp;&nbsp;&nbsp;	***controllers/rest/v1/post/index.js***
 	
-	```
+	```javascript
 	var router = require('koa-router')();
 
 	router.get("post","/:id", function *(next) {
@@ -28,7 +28,7 @@ Eg:
 
 	module.exports = router;
 	
-	````
+	```
 	Now this will be available at http://localhost:8080/rest/v1/post/10
 	
 2.&nbsp;The koa-router objects present under *controllers/root/* are put up directly to the context path.
@@ -42,6 +42,7 @@ Eg:
 	
 	```
 &nbsp;&nbsp;&nbsp;	***config/default.json***
+
 	```
 		"routes": {
     			"directory": "controllers"
