@@ -139,6 +139,11 @@ var routesloader = function(app, router_dir)
                     router_path = router_path.split(path.sep).join('/');
                     r.prefix(router_path);
                     app.use(r.routes());
+                    var allowedMethodsObject = {};
+                    if(r.allowedMethodsObject)
+                    {
+                        allowedMethodsObject = r.allowedMethodsObject;
+                    }
                     app.use(r.allowedMethods(r.allowedMethodsObject));
                 }
             }
