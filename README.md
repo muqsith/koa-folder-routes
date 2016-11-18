@@ -60,6 +60,6 @@ Now this will be available at http://localhost:8080/rest/v1/post/10
 	routesloader(app,'controllers'); 
 	
 ```
-&nbsp;&nbsp;*** The folder path needs to be referenced from the project's directory (excluding project's directory name).***
+*** The folder path needs to be referenced from the project's directory (excluding project's directory name).***
 
 4.&nbsp;You can have all the configuration and features offered by [koa-router](https://github.com/alexmingoia/koa-router)  in your router files (controllers/rest/v1/post/index.js in our example.)
