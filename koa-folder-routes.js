@@ -99,7 +99,7 @@ var criteria = function(o)
 
 var routesloader = function(app, router_dir)
 {
-    var project_dir = __dirname.substring(0, __dirname.indexOf('/node_modules'));
+    var project_dir = __dirname.substring(0, __dirname.indexOf(path.sep+'node_modules'));
     if(!router_dir)
     {
         try{
@@ -129,10 +129,11 @@ var routesloader = function(app, router_dir)
         {
             var r = m[key];
             var router_path = key.substring(0,key.lastIndexOf(path.sep));
-            if(router_path === '/root')
+            if(router_path === path.sep+'root')
             {
                 router_path = '/';
             }
+            router_path = router_path.split(path.sep).join('/');
             r.prefix(router_path);
             app.use(r.routes());
             app.use(r.allowedMethods(r.allowedMethodsObject));
