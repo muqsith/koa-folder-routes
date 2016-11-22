@@ -89,4 +89,4 @@ Now the index.jade will be available at http://localhost:8080/
 
 ***The folder path needs to be referenced from the project's directory (excluding project's directory name).***
 
-4.&nbsp;**This module completely depends on [koa-router](https://github.com/alexmingoia/koa-router) and does not offer anything on it's own for routing. ** This module only helps invoking `app.use` function by passing your [koa-router](https://github.com/alexmingoia/koa-router) objects as parameter and prefixing the directory path to the router. Also we can place in these directories any of the utility function files, modules or helper function modules that we need for the routers.
+4.&nbsp; **This module completely depends on [koa-router](https://github.com/alexmingoia/koa-router) and does not offer anything on it's own for routing.** This module only helps invoking `app.use` function by passing your [koa-router](https://github.com/alexmingoia/koa-router) objects as parameter and prefixing the directory path to the router. Also we can place in these directories any of the utility function files, modules or helper function modules that we need for the routers.
