@@ -1,3 +1,6 @@
+module.exports = (function()
+{
+
 'use strict';
 
 var path = require('path');
@@ -35,22 +38,15 @@ var array_traverser = function(a, func)
 
 // ************************ Worst Object traverser ****************************
 
-var defaultCriteria = function(o)
-{
-    return (typeof o === 'number' || typeof o === 'string');
-};
-
-var criteria = defaultCriteria;
-
-var createTraverser = function(func)
+var createTraverser = function(func, criteria)
 {
     return function(o, previousKey)
     {
-        traverser(o, previousKey, func);
+        traverser(o, previousKey, func, criteria);
     };
 };
 
-var traverser = function(o, previousKey, func)
+var traverser = function(o, previousKey, func, criteria)
 {
     if(o && typeof o === 'object' && !criteria(o))
     {
@@ -61,7 +57,7 @@ var traverser = function(o, previousKey, func)
                 function(k){
                     return {'name':previousKey+path.sep+k, 'value':o[k]};
                 });
-            var f = createTraverser(func);
+            var f = createTraverser(func, criteria);
             array_traverser(objects, f);
         }
     }
@@ -71,11 +67,14 @@ var traverser = function(o, previousKey, func)
     }
 };
 
-var traverse = function(o, c)
+var traverse = function(o, criteria)
 {
-    if(c)
+    if(!criteria)
     {
-        criteria = c;
+        criteria = function(o) // this is default criteria
+        {
+            return (typeof o === 'number' || typeof o === 'string');
+        };
     }
     var m = {};
     var createMap = function(key, value)
@@ -83,7 +82,7 @@ var traverse = function(o, c)
         m[key] = value;
     };
 
-    var t = createTraverser(createMap);
+    var t = createTraverser(createMap, criteria);
     t(o,'');
     return m;
 };
@@ -108,16 +107,19 @@ var routesloader = function(app, router_dir)
                 router_dir = config.get('routes.directory');
             }catch(e)
             {
-                console.error('Routes directory(folder) is not configured. ');
-                console.error('Please pass the directory path '
-                    +' as second parameter: '
-                    +' var routesloader = require(\'koa-folder-routes\');'
-                    +' routesloader(app, \'../controllers\');'
-                    +' (OR) \n'
-                    +'Please configure routes directory: '
-                    +' "router": {\n'
-                    +' "directory": "controllers" \n'
-                    +'}\n'
+                console.error('\n\nRoutes directory(folder) is not configured. ');
+                console.error('***************************\n'
+                    .concat('Please pass the directory path ')
+                    .concat(' as second parameter: \n')
+                    .concat(' var routesloader ')
+                    .concat('= require(\'koa-folder-routes\');\n')
+                    .concat(' routesloader(app, \'../controllers\');\n')
+                    .concat('(OR) \n')
+                    .concat('Please configure routes directory: \n')
+                    .concat(' "router": {\n')
+                    .concat(' "directory": "controllers" \n')
+                    .concat('}\n')
+                    .concat('***************************\n\n\n')
                 );
             }
         }
@@ -153,5 +155,5 @@ var routesloader = function(app, router_dir)
         }
     }
 };
-
-module.exports = routesloader;
+return routesloader;
+})();
